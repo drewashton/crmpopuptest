@@ -1,104 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Newsletter Popup Preview</title>
+<meta charset="UTF-8">
+<title>Newsletter Popup Preview</title>
 
-  <style>
-  body {
-    margin: 0;
-    background: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
-  }
+<style>
+/* Base */
+body {
+  margin: 0;
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Inter, Helvetica, Arial, sans-serif;
+}
 
-  .newsletter-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  }
+/* Overlay */
+.newsletter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 
+/* Popup card */
+.newsletter-popup {
+  background: #F2BE4C;
+  max-width: 560px;
+  width: 92%;
+  padding: 42px 44px;
+  border-radius: 18px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.newsletter-overlay.show .newsletter-popup {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Close */
+.newsletter-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #000;
+  opacity: 0.5;
+}
+
+.newsletter-close:hover {
+  opacity: 1;
+}
+
+/* Headings */
+.newsletter-popup h2 {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.newsletter-popup p {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 28px;
+}
+
+/* Inputs */
+.newsletter-popup input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  box-sizing: border-box;
+}
+
+/* Button */
+.newsletter-popup button {
+  margin-top: 12px;
+  padding: 14px 36px;
+  background: #000;
+  color: #F2BE4C;
+  font-weight: 800;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.newsletter-popup button:hover {
+  background: #111;
+}
+
+/* Thank you state */
+.thank-you {
+  display: none;
+}
+
+.thank-you h2 {
+  margin-bottom: 12px;
+}
+
+.thank-you p {
+  margin-bottom: 0;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
   .newsletter-popup {
-    background: #F2BE4C;
-    max-width: 560px;
-    width: 92%;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+    padding: 32px 26px;
   }
-
-  .newsletter-close {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
-  }
-
-  p {
-    margin-bottom: 28px;
-  }
-
-  input {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 14px;
-    border: none;
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-
-  button {
-    padding: 14px 32px;
-    background: #000;
-    color: #F2BE4C;
-    font-weight: 800;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-<div class="newsletter-overlay" id="newsletterPopup">
+<!-- POPUP -->
+<div class="newsletter-overlay" id="newsletterOverlay">
   <div class="newsletter-popup">
-    <div class="newsletter-close" onclick="closeNewsletter()">✕</div>
 
-    <h2>Newsletter</h2>
-    <p>Subscribe to our newsletter and stay updated.</p>
+    <div class="newsletter-close" onclick="closePopup()">✕</div>
 
-    <form>
-      <input placeholder="First Name">
-      <input placeholder="Last Name">
-      <input placeholder="Email">
-      <button>SUBSCRIBE</button>
-    </form>
+    <!-- FORM STATE -->
+    <div id="formState">
+      <h2>Newsletter</h2>
+      <p>Subscribe to our newsletter and stay updated.</p>
+
+      <form id="newsletterForm"
+        action="https://a6d48789.sibforms.com/serve/MUIFAHA4a2bQgaDI2t2lG9Y5tvpSvvS9XLERjKR-IcBJZrR-8yuWNKN_Y5HBhJGhYze57PzdNb1XGW-1LW1iu_0MPq5UWiYzNmgi2feAkqF6VonwtH6M6qtExpa53u9c92lQJ5GMB0L81suX-11MO930HXfPapDQXgGfrBRdBWhzoLHh06aqe09KemRHKPuzTr7wFSFALUHIzViF9A=="
+        method="POST">
+
+        <input type="text" name="FIRSTNAME" placeholder="First name" required>
+        <input type="text" name="LASTNAME" placeholder="Last name" required>
+        <input type="email" name="EMAIL" placeholder="Email address" required>
+
+        <button type="submit">SUBSCRIBE</button>
+
+        <input type="hidden" name="locale" value="en">
+        <input type="hidden" name="html_type" value="simple">
+      </form>
+    </div>
+
+    <!-- THANK YOU STATE -->
+    <div class="thank-you" id="thankYouState">
+      <h2>You're all set 🎉</h2>
+      <p>Thanks for subscribing. We’re excited to have you.</p>
+    </div>
+
   </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(function () {
-    const popup = document.getElementById("newsletterPopup");
-    popup.style.display = "flex";
-  }, 500);
+  setTimeout(() => {
+    const overlay = document.getElementById("newsletterOverlay");
+    overlay.style.display = "flex";
+    overlay.classList.add("show");
+  }, 800);
 });
 
-function closeNewsletter() {
-  document.getElementById("newsletterPopup").style.display = "none";
+function closePopup() {
+  document.getElementById("newsletterOverlay").style.display = "none";
 }
+
+/* Show thank-you message immediately after submit */
+document.getElementById("newsletterForm").addEventListener("submit", function () {
+  document.getElementById("formState").style.display = "none";
+  document.getElementById("thankYouState").style.display = "block";
+});
 </script>
 
 </body>
