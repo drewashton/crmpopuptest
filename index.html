@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Penticton Robotics Newsletter</title>
+  <title>Newsletter Popup Preview</title>
 
   <style>
   body {
@@ -11,7 +11,6 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 
-  /* Overlay */
   .newsletter-overlay {
     position: fixed;
     inset: 0;
@@ -22,98 +21,85 @@
     z-index: 9999;
   }
 
-  /* Popup */
   .newsletter-popup {
     background: #F2BE4C;
     max-width: 560px;
     width: 92%;
     padding: 40px;
     border-radius: 20px;
-    position: relative;
     text-align: center;
+    position: relative;
     box-shadow: 0 25px 70px rgba(0,0,0,0.35);
   }
 
-  /* Close */
   .newsletter-close {
     position: absolute;
     top: 18px;
     right: 18px;
     font-size: 20px;
     cursor: pointer;
-    color: #000;
-    opacity: 0.6;
   }
 
-  .newsletter-close:hover {
-    opacity: 1;
-  }
-
-  /* Logo placeholder */
-  .newsletter-logo {
-    font-weight: 700;
-    margin-bottom: 18px;
-  }
-
-  /* Title */
-  .newsletter-popup h2 {
+  h2 {
     font-size: 32px;
-    font-weight: 800;
     margin-bottom: 10px;
-    color: #000;
   }
 
-  /* Subtitle */
-  .newsletter-popup p {
-    font-size: 16px;
-    color: #000;
+  p {
     margin-bottom: 28px;
   }
 
-  /* Inputs */
-  .newsletter-popup input {
+  input {
     width: 100%;
-    padding: 14px 16px;
-    font-size: 15px;
+    padding: 14px;
+    margin-bottom: 14px;
     border: none;
     border-radius: 6px;
-    margin-bottom: 14px;
     box-sizing: border-box;
   }
 
-  /* Button */
-  .newsletter-popup button {
-    margin-top: 10px;
+  button {
     padding: 14px 32px;
     background: #000;
     color: #F2BE4C;
     font-weight: 800;
-    font-size: 16px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
   }
-
-  .newsletter-popup button:hover {
-    background: #111;
-  }
-
   </style>
 </head>
 
 <body>
 
-  <!-- POPUP -->
-  <div class="newsletter-overlay" id="newsletterPopup">
-    <div class="newsletter-popup">
+<div class="newsletter-overlay" id="newsletterPopup">
+  <div class="newsletter-popup">
+    <div class="newsletter-close" onclick="closeNewsletter()">✕</div>
 
-      <div class="newsletter-close" onclick="closeNewsletter()">✕</div>
+    <h2>Newsletter</h2>
+    <p>Subscribe to our newsletter and stay updated.</p>
 
-      <div class="newsletter-logo">
-        Penticton Robotics
-      </div>
+    <form>
+      <input placeholder="First Name">
+      <input placeholder="Last Name">
+      <input placeholder="Email">
+      <button>SUBSCRIBE</button>
+    </form>
+  </div>
+</div>
 
-      <h2>Newsletter</h2>
-      <p>Subscribe to our newsletter and stay updated.</p>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    const popup = document.getElementById("newsletterPopup");
+    popup.style.display = "flex";
+  }, 500);
+});
 
-      <form method="POST" action="https://a6d48789.sibforms.com/serve/MUIFAHA4a2bQgaDI2t2lG9Y5tvpSvvS9XLERjKR-IcBJZrR-8yuWNKN_Y5HBhJGhYze57PzdNb1XGW-1LW1iu_0MPq5UWiYzNmgi2feAkqF6VonwtH6M6qtExpa53
+function closeNewsletter() {
+  document.getElementById("newsletterPopup").style.display = "none";
+}
+</script>
+
+</body>
+</html>
