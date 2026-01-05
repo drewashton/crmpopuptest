@@ -101,7 +101,7 @@ body {
   background: #111;
 }
 
-/* Thank you state */
+/* Thank-you state */
 .thank-you {
   display: none;
 }
@@ -136,16 +136,14 @@ body {
       <h2>Newsletter</h2>
       <p>Subscribe to our newsletter and stay updated.</p>
 
-      <form id="newsletterForm"
-        action="https://a6d48789.sibforms.com/serve/MUIFAHA4a2bQgaDI2t2lG9Y5tvpSvvS9XLERjKR-IcBJZrR-8yuWNKN_Y5HBhJGhYze57PzdNb1XGW-1LW1iu_0MPq5UWiYzNmgi2feAkqF6VonwtH6M6qtExpa53u9c92lQJ5GMB0L81suX-11MO930HXfPapDQXgGfrBRdBWhzoLHh06aqe09KemRHKPuzTr7wFSFALUHIzViF9A=="
-        method="POST">
-
+      <form id="newsletterForm">
         <input type="text" name="FIRSTNAME" placeholder="First name" required>
         <input type="text" name="LASTNAME" placeholder="Last name" required>
         <input type="email" name="EMAIL" placeholder="Email address" required>
 
         <button type="submit">SUBSCRIBE</button>
 
+        <!-- Brevo required hidden fields -->
         <input type="hidden" name="locale" value="en">
         <input type="hidden" name="html_type" value="simple">
       </form>
@@ -161,23 +159,40 @@ body {
 </div>
 
 <script>
+const BREVO_URL =
+  "https://a6d48789.sibforms.com/serve/MUIFAHA4a2bQgaDI2t2lG9Y5tvpSvvS9XLERjKR-IcBJZrR-8yuWNKN_Y5HBhJGhYze57PzdNb1XGW-1LW1iu_0MPq5UWiYzNmgi2feAkqF6VonwtH6M6qtExpa53u9c92lQJ5GMB0L81suX-11MO930HXfPapDQXgGfrBRdBWhzoLHh06aqe09KemRHKPuzTr7wFSFALUHIzViF9A==";
+
 document.addEventListener("DOMContentLoaded", function () {
+  // Show popup
   setTimeout(() => {
     const overlay = document.getElementById("newsletterOverlay");
     overlay.style.display = "flex";
     overlay.classList.add("show");
   }, 800);
+
+  // Handle form submit
+  const form = document.getElementById("newsletterForm");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // stop redirect
+
+    const formData = new FormData(form);
+
+    fetch(BREVO_URL, {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    });
+
+    // Show thank-you message
+    document.getElementById("formState").style.display = "none";
+    document.getElementById("thankYouState").style.display = "block";
+  });
 });
 
 function closePopup() {
   document.getElementById("newsletterOverlay").style.display = "none";
 }
-
-/* Show thank-you message immediately after submit */
-document.getElementById("newsletterForm").addEventListener("submit", function () {
-  document.getElementById("formState").style.display = "none";
-  document.getElementById("thankYouState").style.display = "block";
-});
 </script>
 
 </body>
