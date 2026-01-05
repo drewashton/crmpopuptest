@@ -2,160 +2,119 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Newsletter Popup Preview</title>
+<title>Newsletter Popup</title>
 
 <style>
-body {
-  margin: 0;
-  background: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Inter, Helvetica, Arial, sans-serif;
-}
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: white;
+  }
 
-.newsletter-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
+  #overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.newsletter-popup {
-  background: #F2BE4C;
-  max-width: 560px;
-  width: 92%;
-  padding: 42px 44px;
-  border-radius: 18px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
-  transform: scale(0.95);
-  opacity: 0;
-  transition: all 0.35s ease;
-}
+  #popup {
+    background: #F2BE4C;
+    padding: 40px;
+    width: 420px;
+    max-width: 90%;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    text-align: center;
+  }
 
-.newsletter-overlay.show .newsletter-popup {
-  transform: scale(1);
-  opacity: 1;
-}
+  h2 {
+    margin-top: 0;
+    font-size: 28px;
+    font-weight: 800;
+  }
 
-.newsletter-close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  font-size: 20px;
-  cursor: pointer;
-  color: #000;
-  opacity: 0.5;
-}
+  p {
+    margin-bottom: 24px;
+  }
 
-.newsletter-close:hover {
-  opacity: 1;
-}
+  input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+  }
 
-.newsletter-popup h2 {
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
+  button {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    background: black;
+    color: #F2BE4C;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
 
-.newsletter-popup p {
-  font-size: 16px;
-  margin-bottom: 28px;
-}
+  button:hover {
+    opacity: 0.9;
+  }
 
-.newsletter-popup input {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 14px;
-  box-sizing: border-box;
-}
-
-.newsletter-popup button {
-  margin-top: 12px;
-  padding: 14px 36px;
-  background: #000;
-  color: #F2BE4C;
-  font-weight: 800;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.thank-you {
-  display: none;
-}
+  #thanks {
+    display: none;
+    font-weight: 600;
+    margin-top: 20px;
+  }
 </style>
 </head>
 
 <body>
 
-<div class="newsletter-overlay" id="newsletterOverlay">
-  <div class="newsletter-popup">
+<div id="overlay">
+  <div id="popup">
+    <h2>Join our newsletter</h2>
+    <p>Get updates straight to your inbox.</p>
 
-    <div class="newsletter-close" onclick="closePopup()">✕</div>
+    <input id="firstname" placeholder="First name">
+    <input id="lastname" placeholder="Last name">
+    <input id="email" placeholder="Email address">
 
-    <!-- FORM STATE -->
-    <div id="formState">
-      <h2>Newsletter</h2>
-      <p>Subscribe to our newsletter and stay updated.</p>
+    <button id="subscribeBtn">Subscribe</button>
 
-      <!-- NO FORM TAG -->
-      <input id="firstName" placeholder="First name">
-      <input id="lastName" placeholder="Last name">
-      <input id="email" placeholder="Email address">
-
-      <button type="button" onclick="submitToBrevo()">SUBSCRIBE</button>
-    </div>
-
-    <!-- THANK YOU -->
-    <div class="thank-you" id="thankYouState">
-      <h2>You're all set 🎉</h2>
-      <p>Thanks for subscribing. We’re excited to have you.</p>
-    </div>
-
+    <p id="thanks">Thanks for subscribing 🎉</p>
   </div>
 </div>
 
 <script>
-const BREVO_URL =
-  "https://a6d48789.sibforms.com/serve/MUIFAHA4a2bQgaDI2t2lG9Y5tvpSvvS9XLERjKR-IcBJZrR-8yuWNKN_Y5HBhJGhYze57PzdNb1XGW-1LW1iu_0MPq5UWiYzNmgi2feAkqF6VonwtH6M6qtExpa53u9c92lQJ5GMB0L81suX-11MO930HXfPapDQXgGfrBRdBWhzoLHh06aqe09KemRHKPuzTr7wFSFALUHIzViF9A==";
+  const BREVO_FORM_URL =
+    "https://a6d48789.sibforms.com/serve/MUIFAHA4a2bQgaDI2t2lG9Y5tvpSvvS9XLERjKR-IcBJZrR-8yuWNKN_Y5HBhJGhYze57PzdNb1XGW-1LW1iu_0MPq5UWiYzNmgi2feAkqF6VonwtH6M6qtExpa53u9c92lQJ5GMB0L81suX-11MO930HXfPapDQXgGfrBRdBWhzoLHh06aqe09KemRHKPuzTr7wFSFALUHIzViF9A==";
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    const overlay = document.getElementById("newsletterOverlay");
-    overlay.style.display = "flex";
-    overlay.classList.add("show");
-  }, 800);
-});
+  document.getElementById("subscribeBtn").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    if (!email) return;
 
-function closePopup() {
-  document.getElementById("newsletterOverlay").style.display = "none";
-}
+    const formData = new FormData();
+    formData.append("EMAIL", email);
+    formData.append("FIRSTNAME", document.getElementById("firstname").value);
+    formData.append("LASTNAME", document.getElementById("lastname").value);
+    formData.append("locale", "en");
+    formData.append("html_type", "simple");
 
-function submitToBrevo() {
-  const formData = new FormData();
-  formData.append("FIRSTNAME", document.getElementById("firstName").value);
-  formData.append("LASTNAME", document.getElementById("lastName").value);
-  formData.append("EMAIL", document.getElementById("email").value);
-  formData.append("locale", "en");
-  formData.append("html_type", "simple");
+    fetch(BREVO_FORM_URL, {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    });
 
-  fetch(BREVO_URL, {
-    method: "POST",
-    body: formData,
-    mode: "no-cors"
+    document.getElementById("thanks").style.display = "block";
+    document.getElementById("subscribeBtn").disabled = true;
+    document.getElementById("subscribeBtn").innerText = "Subscribed";
   });
-
-  document.getElementById("formState").style.display = "none";
-  document.getElementById("thankYouState").style.display = "block";
-}
 </script>
 
 </body>
